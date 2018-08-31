@@ -6,14 +6,25 @@
 package espol.edu.ec.main;
 
 import espol.edu.ec.tda.juegoBacon;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 
 /**
  *
  * @author SSAM
  */
-public class Main {
+public class Main extends Application{
+
+    @Override
+    public void start(Stage stage) {
+        stage.setScene(new Scene(new JuegoPane().getRoot()));
+        stage.show();
+    }
+
     public static void main(String[] args) {
+        launch();
         juegoBacon j = new juegoBacon();
         
         long star = System.currentTimeMillis();
@@ -21,7 +32,5 @@ public class Main {
         long end = System.currentTimeMillis();
         System.out.println("Relacion lista: "+(end-star)+ " milisegundos");
         System.out.println(j.getListaActores().get(0).getPeliculas());
-        
-        
     }
 }
