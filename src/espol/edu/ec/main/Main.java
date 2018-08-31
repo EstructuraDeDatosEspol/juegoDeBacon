@@ -27,14 +27,14 @@ public class Main extends Application{
         juegoBacon j = new juegoBacon();
         
         long star = System.currentTimeMillis();
-        j.relacionarL();
-        long end = System.currentTimeMillis();
-        System.out.println("Relacion lista: "+(end-star)+ " milisegundos");
+//        j.relacionarL();
+//        long end = System.currentTimeMillis();
+//        System.out.println("Relacion lista: "+(end-star)+ " milisegundos");
         
         
-        star = System.currentTimeMillis();
+        //star = System.currentTimeMillis();
         j.relacionarM();
-        end = System.currentTimeMillis();
+        long end = System.currentTimeMillis();
         System.out.println("Relacion mapa: "+(end-star)+ " milisegundos");
         
         launch();
