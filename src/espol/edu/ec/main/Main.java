@@ -24,13 +24,19 @@ public class Main extends Application{
     }
 
     public static void main(String[] args) {
-        launch();
         juegoBacon j = new juegoBacon();
         
         long star = System.currentTimeMillis();
-        j.relacionar();
+        j.relacionarL();
         long end = System.currentTimeMillis();
         System.out.println("Relacion lista: "+(end-star)+ " milisegundos");
-        System.out.println(j.getListaActores().get(0).getPeliculas());
+        
+        
+        star = System.currentTimeMillis();
+        j.relacionarM();
+        end = System.currentTimeMillis();
+        System.out.println("Relacion mapa: "+(end-star)+ " milisegundos");
+        
+        launch();
     }
 }

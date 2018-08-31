@@ -5,6 +5,7 @@
  */
 package espol.edu.ec.tda;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ public class Actor {
     public Actor(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
+        peliculas = new LinkedList<>();
     }
     
     public Integer getId() {
@@ -44,6 +46,9 @@ public class Actor {
     public void setPeliculas(List<Pelicula> peliculas) {
         this.peliculas = peliculas;
     }
-        
-    
+
+    @Override
+    public String toString() {
+        return "Actor:" + id + " " + nombre;
+    }
 }
