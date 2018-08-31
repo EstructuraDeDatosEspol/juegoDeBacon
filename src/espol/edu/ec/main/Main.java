@@ -5,7 +5,7 @@
  */
 package espol.edu.ec.main;
 
-import espol.edu.ec.tda.juegoBacon;
+import espol.edu.ec.tda.JuegoBacon;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -24,19 +24,20 @@ public class Main extends Application{
     }
 
     public static void main(String[] args) {
-        juegoBacon j = new juegoBacon();
         
-        long star = System.currentTimeMillis();
+        //long star = System.currentTimeMillis();
 //        j.relacionarL();
 //        long end = System.currentTimeMillis();
 //        System.out.println("Relacion lista: "+(end-star)+ " milisegundos");
         
         
         //star = System.currentTimeMillis();
-        j.relacionarM();
-        long end = System.currentTimeMillis();
-        System.out.println("Relacion mapa: "+(end-star)+ " milisegundos");
+//        j.relacionarM();
+//        long end = System.currentTimeMillis();
+//        System.out.println("Relacion mapa: "+(end-star)+ " milisegundos");
         
+        JuegoBacon.crearGrafo();
+
         launch();
     }
 }

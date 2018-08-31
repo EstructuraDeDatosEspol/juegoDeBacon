@@ -16,60 +16,17 @@ import java.util.Map;
  *
  * @author SSAM
  */
-public class juegoBacon {
-    private List<Actor> listaActores;
-    private List<Pelicula> listaPeliculas;
-    private Map<Integer, String> mapaActores;
-    private Map<Integer, String> mapaPeliculas;
-    private Map<Integer, List<Integer>> mapaPeliculaActor;
-    private List<String> listaNombres;
+public class JuegoBacon {
+    private static List<Actor> listaActores;
+    private static List<Pelicula> listaPeliculas;
+    private static Map<Integer, String> mapaActores;
+    private static Map<Integer, String> mapaPeliculas;
+    private static Map<Integer, List<Integer>> mapaPeliculaActor;
+    private static List<String> listaNombres;
+    private static Graph<Integer> grafo;
 
-    public List<Actor> getListaActores() {
-        return listaActores;
-    }
-
-    public void setListaActores(List<Actor> listaActores) {
-        this.listaActores = listaActores;
-    }
-
-    public List<Pelicula> getListaPeliculas() {
-        return listaPeliculas;
-    }
-
-    public void setListaPeliculas(List<Pelicula> listaPeliculas) {
-        this.listaPeliculas = listaPeliculas;
-    }
-
-    public Map<Integer, String> getMapaActores() {
-        return mapaActores;
-    }
-
-    public void setMapaActores(Map<Integer, String> mapaActores) {
-        this.mapaActores = mapaActores;
-    }
-
-    public Map<Integer, String> getMapaPeliculas() {
-        return mapaPeliculas;
-    }
-
-    public void setMapaPeliculas(Map<Integer, String> mapaPeliculas) {
-        this.mapaPeliculas = mapaPeliculas;
-    }
-
-    public Map<Integer, List<Integer>> getMapaPeliculaActor() {
-        return mapaPeliculaActor;
-    }
-
-    public void setMapaPeliculaActor(Map<Integer, List<Integer>> mapaPeliculaActor) {
-        this.mapaPeliculaActor = mapaPeliculaActor;
-    }
-
-    public List<String> getListaNombres() {
-        return listaNombres;
-    }
-
-    public void setListaNombres(List<String> listaNombres) {
-        this.listaNombres = listaNombres;
+    private JuegoBacon() {
+        //constructor privado
     }
     
     public List<Actor> leerArchivosActoresL(){
@@ -125,7 +82,7 @@ public class juegoBacon {
     }
     
     
-    public Map<Integer,String> leerArchivosActoresM(){
+    public static Map<Integer,String> leerArchivosActoresM(){
         mapaActores = new HashMap<>();
         listaNombres = new LinkedList<>();
         
@@ -142,7 +99,7 @@ public class juegoBacon {
         return mapaActores;
     }
     
-    public Map<Integer, String> leerArchivosPeliculasM(){
+    public static Map<Integer, String> leerArchivosPeliculasM(){
         mapaPeliculas = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader("src\\espol\\edu\\ec\\recursos\\peliculas-test.txt"))){
             String linea = "";
@@ -157,7 +114,7 @@ public class juegoBacon {
         return mapaPeliculas;
     }
     
-    public void relacionarM(){
+    public static void relacionarM(){
         leerArchivosPeliculasM();
         leerArchivosActoresM();
         mapaPeliculaActor = new HashMap<>();
@@ -177,5 +134,27 @@ public class juegoBacon {
         }catch(Exception e){
             e.getStackTrace();
         }        
+    }
+    
+    public static void crearGrafo(){
+        relacionarM();
+        grafo = new Graph<>(false);
+        
+        for(Integer i: mapaActores.keySet()){
+            grafo.addVertex(i);
+        }
+        
+        for(Map.Entry<Integer, List<Integer>> e: mapaPeliculaActor.entrySet()){
+            for(Integer origen: e.getValue()){
+                for(Integer destino: e.getValue()){
+                    if(!origen.equals(destino)){
+                        grafo.addEdge(origen, destino, e.getKey());
+                    }
+                }
+            }
+        }
+        
+        
+        System.out.println(grafo);
     }
 }
