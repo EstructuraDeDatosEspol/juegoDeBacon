@@ -12,6 +12,7 @@ import java.util.Objects;
 /**
  *
  * @author SSAM
+ * @param <E>
  */
 public class Vertex <E>{
     private E data;
@@ -72,7 +73,7 @@ public class Vertex <E>{
     public String toString(){
         return data.toString();
     }
-    
+
     @Override
     public boolean equals(Object o){
         if (!(o instanceof Vertex))return false;

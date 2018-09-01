@@ -5,6 +5,7 @@
  */
 package espol.edu.ec.main;
 
+import espol.edu.ec.tda.JuegoBacon;
 import java.util.LinkedList;
 import java.util.List;
 import javafx.geometry.Insets;
@@ -15,6 +16,8 @@ import javafx.scene.control.ComboBox;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Side;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
@@ -42,6 +45,7 @@ public class JuegoPane {
     private final TextField actor;
     private ContextMenu menuSugerencias;
     private final Button empezar;
+    private BaconGraph bacon;
     
     List<String> nombresActores;
     
@@ -52,9 +56,11 @@ public class JuegoPane {
         actor = new TextField();
         empezar = new Button("Empezar");
         leftPane();
+        centerPane();
         root.setLeft(left); 
         menuSugerencias = new ContextMenu();
         actor.setContextMenu(menuSugerencias);
+        evtEmpezar();
     }
     
     private void leftPane() {
@@ -82,6 +88,21 @@ public class JuegoPane {
                 menuSugerencias.show(actor, Side.BOTTOM, 0, 0);
             }
         });
+    }
+    
+    private void evtEmpezar() {
+        empezar.setOnAction(e-> {
+            String metodo = algoritmos.getValue();
+            String act = actor.getText();
+            if(metodo != null && !act.isEmpty()) {
+                bacon.dijkstra(JuegoBacon.getActorId(act));  
+            }else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error!!!");
+                alert.setContentText("Error al ingresar datos"); 
+                alert.show();
+            }
+        }); 
     }
     
     private HBox crearHBox(String label, Node n) {
@@ -135,6 +156,11 @@ public class JuegoPane {
     
     private void leftDisenio() {
         left.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+    
+    private void centerPane() {
+        bacon = new BaconGraph();
+        root.setCenter(bacon); 
     }
     
     public Pane getRoot() {

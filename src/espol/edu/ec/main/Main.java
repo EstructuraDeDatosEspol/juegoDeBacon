@@ -19,7 +19,10 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage) {
-        stage.setScene(new Scene(new JuegoPane().getRoot()));
+        JuegoPane jp = new JuegoPane();
+        jp.setNombresActores(JuegoBacon.listaNombres());
+        stage.setScene(new Scene(jp.getRoot()));
+        stage.setMaximized(true); 
         stage.show();
     }
 
@@ -35,9 +38,6 @@ public class Main extends Application{
 //        j.relacionarM();
 //        long end = System.currentTimeMillis();
 //        System.out.println("Relacion mapa: "+(end-star)+ " milisegundos");
-        
-        JuegoBacon.crearGrafo();
-
         launch();
     }
 }

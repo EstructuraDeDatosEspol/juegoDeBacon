@@ -32,7 +32,7 @@ public class JuegoBacon {
     public List<Actor> leerArchivosActoresL(){
         listaActores = new LinkedList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("src\\espol\\edu\\ec\\recursos\\actores.txt"))){
-            String linea = "";
+            String linea;
             while((linea = br.readLine()) != null){
                 String[] arreglo = linea.split("[|]");
                 listaActores.add(new Actor(Integer.valueOf(arreglo[0]), arreglo[1]));
@@ -46,7 +46,7 @@ public class JuegoBacon {
     public List<Pelicula> leerArchivosPeliculasL(){
         listaPeliculas = new LinkedList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("src\\espol\\edu\\ec\\recursos\\peliculas.txt"))){
-            String linea = "";
+            String linea;
             while((linea = br.readLine()) != null){
                 String[] arreglo = linea.split("[|]");
                 listaPeliculas.add(new Pelicula(Integer.valueOf(arreglo[0]), arreglo[1]));
@@ -62,7 +62,7 @@ public class JuegoBacon {
         leerArchivosActoresL();
         
         try (BufferedReader br = new BufferedReader(new FileReader("src\\espol\\edu\\ec\\recursos\\pelicula-actores.txt"))){
-            String linea = "";
+            String linea;
             while((linea = br.readLine()) != null){
                 String[] arreglo = linea.split("[|]");
                 for(Pelicula p: listaPeliculas){
@@ -87,7 +87,7 @@ public class JuegoBacon {
         listaNombres = new LinkedList<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader("src\\espol\\edu\\ec\\recursos\\actores-test.txt"))){
-            String linea = "";
+            String linea;
             while((linea = br.readLine()) != null){
                 String[] arreglo = linea.split("\\|");
                 mapaActores.put(Integer.valueOf(arreglo[0]), arreglo[1]);
@@ -102,7 +102,7 @@ public class JuegoBacon {
     public static Map<Integer, String> leerArchivosPeliculasM(){
         mapaPeliculas = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader("src\\espol\\edu\\ec\\recursos\\peliculas-test.txt"))){
-            String linea = "";
+            String linea;
             while((linea = br.readLine()) != null){
                 String[] arreglo = linea.split("\\|");
                 mapaPeliculas.put(Integer.valueOf(arreglo[0]), arreglo[1]);
@@ -120,7 +120,7 @@ public class JuegoBacon {
         mapaPeliculaActor = new HashMap<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader("src\\espol\\edu\\ec\\recursos\\pelicula-actores-test.txt"))){
-            String linea = "";
+            String linea;
             while((linea = br.readLine()) != null){
                 String[] arreglo = linea.split("\\|");
                 if(mapaPeliculaActor.containsKey(Integer.valueOf(arreglo[0]))){
@@ -136,7 +136,7 @@ public class JuegoBacon {
         }        
     }
     
-    public static void crearGrafo(){
+    public static Graph crearGrafo(){
         relacionarM();
         grafo = new Graph<>(false);
         
@@ -156,5 +156,26 @@ public class JuegoBacon {
         
         
         System.out.println(grafo);
+        return grafo;
+    }
+    
+    public static List<String> listaNombres() {
+        return listaNombres;
+    }
+    
+    public static String getActor(int id) {
+        return mapaActores.get(id);
+    }
+    
+    public static String getPelicula(int id) {
+        return mapaPeliculas.get(id);
+    }
+    
+    public static int getActorId(String nombre) {
+        for(Map.Entry<Integer, String> m: mapaActores.entrySet()) {
+            if(m.getValue().equals(nombre))
+                return m.getKey();
+        }
+        return -1;
     }
 }

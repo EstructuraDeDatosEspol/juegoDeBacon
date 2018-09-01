@@ -5,6 +5,7 @@
  */
 package espol.edu.ec.tda;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,8 +20,8 @@ import java.util.TreeSet;
  * @param <E>
  */
 public class Graph <E>{
-    private List<Vertex<E>> vertices;
-    private boolean dirigido;
+    private final List<Vertex<E>> vertices;
+    private final boolean dirigido;
 
     public Graph(boolean dirigido) {
         this.dirigido = dirigido;
@@ -110,6 +111,7 @@ public class Graph <E>{
         return 0;
     }
     
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("{");
@@ -356,7 +358,7 @@ public class Graph <E>{
     }
     
     public List<E> caminoMinimo(E origen, E destino){
-        List<E> lista = new LinkedList<>();
+        List<E> lista = new ArrayList<>();
         dijkstra(origen);
         lista.add(origen);
         Deque<E> pila = new LinkedList<>();
@@ -442,6 +444,16 @@ public class Graph <E>{
             }
         }
         return g;
+    }
+    
+    public int getPesoArco(E inicio, E fin) {
+        Vertex<E> vi = searchVertex(inicio);
+        Vertex<E> vf = searchVertex(fin);
+        for(Edge<E> e: vi.getArcos()) {
+            if(e.origen.equals(vi) && e.destino.equals(vf))
+                return e.getPeso();
+        }
+        return -1;
     }
     
     public Graph<E> unirGrafo(Graph<E> g){
