@@ -166,6 +166,7 @@ public class Graph <E>{
     }
     
     public List<E> bfs(E data){
+        vaciar();
         List<E> lista = new LinkedList<>();
         Vertex<E> v = searchVertex(data);
         if(v == null || this.isEmpty()){

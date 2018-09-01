@@ -43,7 +43,7 @@ public class JuegoPane {
     private final VBox left;
     private final ComboBox<String> algoritmos;
     private final TextField actor;
-    private ContextMenu menuSugerencias;
+    private final ContextMenu menuSugerencias;
     private final Button empezar;
     private BaconGraph bacon;
     
@@ -95,7 +95,16 @@ public class JuegoPane {
             String metodo = algoritmos.getValue();
             String act = actor.getText();
             if(metodo != null && !act.isEmpty()) {
-                bacon.dijkstra(JuegoBacon.getActorId(act));  
+                switch(metodo){
+                    case "Dijkstra":
+                        bacon.dijkstra(JuegoBacon.getActorId(act));  
+                        break;
+                    case "BSF":
+                        bacon.bsf(JuegoBacon.getActorId(act));
+                        break;
+                    default:
+                        break;
+                }
             }else {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error!!!");

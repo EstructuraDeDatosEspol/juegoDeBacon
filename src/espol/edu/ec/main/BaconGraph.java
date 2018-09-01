@@ -61,6 +61,26 @@ public class BaconGraph extends StackPane{
         }
     }
     
+    public void bsf(int id) {
+        root.getChildren().clear();
+        List<Integer> camino = grafo.bfs(id);
+        int col = 0;
+        String actor = "";
+        while(!actor.equalsIgnoreCase("Kevin Bacon") && col < camino.size()) {
+            actor = JuegoBacon.getActor(camino.get(col));
+            String pelicula = "";
+            if(col < camino.size() - 1) {
+                int idPelicula = grafo.getPesoArco(camino.get(col), camino.get(col+1));
+                pelicula = JuegoBacon.getPelicula(idPelicula);
+            }
+            if(!actor.equalsIgnoreCase("Kevin Bacon"))
+                root.getChildren().addAll(drawRectangle(actor, Color.BLUE), drawArrow("Actuó en"), 
+                        drawRectangle(pelicula, Color.RED), drawArrow("Con"));
+            else
+                root.getChildren().add(drawRectangle(actor, Color.BLUE));
+            col++;
+        }
+    }
     
     private StackPane drawRectangle(String nombre, Color color) {
         StackPane sp = new StackPane();
