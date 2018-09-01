@@ -5,11 +5,19 @@
  */
 package espol.edu.ec.main;
 
+import java.util.LinkedList;
+import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.geometry.Side;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,7 +40,10 @@ public class JuegoPane {
     private final VBox left;
     private final ComboBox<String> algoritmos;
     private final TextField actor;
+    private ContextMenu menuSugerencias;
     private final Button empezar;
+    
+    List<String> nombresActores;
     
     public JuegoPane() {
         root = new BorderPane();
@@ -42,6 +53,8 @@ public class JuegoPane {
         empezar = new Button("Empezar");
         leftPane();
         root.setLeft(left); 
+        menuSugerencias = new ContextMenu();
+        actor.setContextMenu(menuSugerencias);
     }
     
     private void leftPane() {
@@ -56,6 +69,19 @@ public class JuegoPane {
         left.getChildren().addAll(im, metodo, act, empezar);
         left.setPadding(new Insets(60, 60, 60, 60)); 
         leftDisenio();
+        
+        actor.textProperty().addListener((ObservableValue<? extends String> observableValue, String s, String s2) -> {
+            if (actor.getText().length() == 0) {
+                menuSugerencias.hide();
+            } else {
+                try {
+                    populatePopup();
+                } catch (Exception ex) {
+                    System.out.println("Problema al crear sugerencias");
+                }
+                menuSugerencias.show(actor, Side.BOTTOM, 0, 0);
+            }
+        });
     }
     
     private HBox crearHBox(String label, Node n) {
@@ -67,6 +93,46 @@ public class JuegoPane {
         return metodo;
     }
     
+    public void populatePopup() {
+
+        List<String> suggestions = getSuggestions(actor.getText());
+
+        LinkedList<String> itemsString = new LinkedList<>();
+
+        for(String s: suggestions) {
+            itemsString.add(s);
+        }
+
+        List<CustomMenuItem> menuItems = new LinkedList<>();
+
+        for (String text : itemsString) {
+
+            CustomMenuItem item = new CustomMenuItem(new Label(text), true);
+            item.setOnAction((ActionEvent actionEvent) -> {
+                String nombre = ((Label) item.getContent()).getText();
+
+                actor.setText(nombre);
+                menuSugerencias.hide();
+            });
+            menuItems.add(item);
+        }
+        menuSugerencias.getItems().clear();
+        menuSugerencias.getItems().addAll(menuItems);
+    }
+    
+    private List<String> getSuggestions(String subString){
+        List<String> result = new LinkedList<>();
+        
+        for(String s: nombresActores){
+            if(s.toLowerCase().startsWith(subString.toLowerCase()))
+                result.add(s);
+            if(result.size()>10)
+                break;
+        }
+        
+        return  result;
+    }
+    
     private void leftDisenio() {
         left.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     }
@@ -74,4 +140,10 @@ public class JuegoPane {
     public Pane getRoot() {
         return root;
     }
+
+    public void setNombresActores(List<String> nombresActores) {
+        this.nombresActores = nombresActores;
+    }
+    
+    
 }
